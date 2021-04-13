@@ -1,0 +1,49 @@
+# Dev Only Currently
+
+version: '3.7'
+
+services:
+  server:
+    container_name: mtg-card-search_server
+    image: node:lts-alpine
+    command: sh -c "npm i && npm run dev"
+    ports:
+      - 4000:4000
+    working_dir: /server
+    env_file: ./server/.env
+    volumes:
+      - ./server:/server
+    depends_on:
+      - mongo
+
+  client:
+    container_name: mtg-card-search_client
+    image: node:lts-alpine
+    command: sh -c "npm ci && npm run dev"
+    ports:
+      - 8080:8080
+    working_dir: /client
+    volumes:
+      - ./client:/client
+    depends_on:
+      - server
+
+  mongo:
+    container_name: mtg-card-search_mongo
+    image: mongo:latest
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: somepass
+      MONGO_INITDB_DATABASE: mtg-search
+      SERVICE_NAME: mtg-card-search_mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./seed:/data/seed
+      - mongo_data:/data/db
+      - mongo_config:/data/configdb
+
+volumes:
+  mongo_data: {}
+  mongo_config: {}

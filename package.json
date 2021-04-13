@@ -1,0 +1,13 @@
+{
+  "name": "mtg-card-search",
+  "description": "Simple card search API for Magic the Gathering.",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "docker-compose up -d",
+    "seed": "docker exec mtg-card-search_mongo mongoimport --db=mtg-search --collection=cards --authenticationDatabase=admin --authenticationMechanism=SCRAM-SHA-256 -u=root -p=somepass --drop --type=csv --headerline --file=/data/seed/cards.csv"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
