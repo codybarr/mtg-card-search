@@ -41,7 +41,7 @@ Spin up express / mongo containers (app stack)
 
 Spin it down ;)
 
-`docker-compose logs -f mtg-card-search_server`
+`docker-compose logs -f server`
 
 Follow the logs in the server container
 
