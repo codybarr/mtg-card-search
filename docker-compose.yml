@@ -19,7 +19,7 @@ services:
   client:
     container_name: mtg-card-search_client
     image: node:lts-alpine
-    command: sh -c "npm ci && npm run dev"
+    command: sh -c "npm i && npm run dev"
     ports:
       - 8080:8080
     working_dir: /client

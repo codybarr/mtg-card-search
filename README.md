@@ -9,8 +9,9 @@ Tech used: Express, Apollo Server, MongoDB, Mongoose, GraphQL
 _Pre-reqs: Install Docker (and make sure docker compose is installed)_
 
 1. Clone the repo
-2. Run `docker-compose up` _(initial startup may take a while - wait for client to finish)_
-3. In another terminal tab run `npm run seed` to seed the card collection.
+2. `mv client/.env.sample client/.env`
+3. Run `docker-compose up` _(initial startup may take a while - wait for client to finish)_
+4. In another terminal tab run `npm run seed` to seed the card collection.
    _(it should look something like this)_
 
 ```

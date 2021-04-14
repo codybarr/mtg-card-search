@@ -1,20 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import App from './App.jsx'
+
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { ApolloProvider } from '@apollo/client/react'
 
-const { SNOWPACK_API_URL } = import.meta.env
+const { SNOWPACK_PUBLIC_API_URL } = import.meta.env
 
 // Tailwind
 import 'tailwindcss/dist/tailwind.css'
 
 // Apollo GraphQL Client
 const client = new ApolloClient({
-  uri: SNOWPACK_API_URL,
+  uri: SNOWPACK_PUBLIC_API_URL,
   cache: new InMemoryCache(),
 })
 
-import App from './App.jsx'
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
