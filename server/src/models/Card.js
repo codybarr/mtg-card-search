@@ -1,8 +1,9 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
+const { Schema, model } = mongoose
 
 const SETS = ['10E']
 
-const CardSchema = new mongoose.Schema({
+const CardSchema = new Schema({
   name: { type: String, index: true },
   manaCost: { type: String, index: true },
   rarity: { type: String, index: true },
@@ -14,8 +15,9 @@ const CardSchema = new mongoose.Schema({
   text: { type: String, index: true },
   type: { type: String, index: true },
   types: { type: String, index: true },
+  scryfallId: String,
 })
 
-const Card = mongoose.model('card', CardSchema)
+const Card = model('card', CardSchema)
 
-module.exports = Card
+export default Card

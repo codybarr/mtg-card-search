@@ -1,24 +1,17 @@
-const mongoose = require('mongoose')
-const { ApolloServer } = require('apollo-server')
+import mongoose from 'mongoose'
+import { ApolloServer } from 'apollo-server'
+import { MONGO_CONNECTION_STRING, PORT } from './config.js'
+import { schema } from './schema.js'
 
-const { MONGO_CONNECTION_STRING } = require('./config')
-const { PORT } = require('./config')
-
-const { schema } = require('./schema')
-// const app = require('./app')
-
-async function main() {
+;(async function main() {
   try {
     await mongoose.connect(MONGO_CONNECTION_STRING, { useNewUrlParser: true })
     console.log('MongoDB Connected')
+
+    const server = new ApolloServer({ schema })
+    const { url } = await server.listen({ port: PORT })
+    console.log(`🚀  Server ready at ${url}`)
   } catch (err) {
     console.log(err)
   }
-
-  const server = new ApolloServer({ schema })
-  server.listen({ port: PORT }).then(({ url }) => {
-    console.log(`🚀  Server ready at ${url}`)
-  })
-}
-
-main()
+})()

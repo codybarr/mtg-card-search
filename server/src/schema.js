@@ -1,7 +1,7 @@
-const { composeMongoose } = require('graphql-compose-mongoose')
-const { schemaComposer } = require('graphql-compose')
+import { composeMongoose } from 'graphql-compose-mongoose'
+import { schemaComposer } from 'graphql-compose'
 
-const Card = require('./models/Card')
+import Card from './models/Card.js'
 
 const CardTC = composeMongoose(Card, {})
 
@@ -34,6 +34,4 @@ schemaComposer.Query.addFields({
 //   userRemoveMany: UserTC.mongooseResolvers.removeMany(),
 // });
 
-const schema = schemaComposer.buildSchema()
-
-module.exports = { schema }
+export const schema = schemaComposer.buildSchema()
