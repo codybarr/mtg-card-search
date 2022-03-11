@@ -28,8 +28,8 @@ _Pre-reqs: Install Docker (and make sure docker compose is installed)_
 2021-04-13T22:57:02.218+0000	56946 document(s) imported successfully. 0 document(s) failed to import.
 ```
 
-4. Visit http://localhost:8080
-5. Profit
+4. React client frontend can be accessed at: http://localhost:8080
+5. Apollo GraphQL playground can be accessed at: http://localhost:4000
 
 ## Scripts
 
@@ -54,3 +54,124 @@ Drop into the mongo shell in the mongo container
 `db.getCollection("cards").distinct('setCode')`
 
 Get a unique list of all MtG set codes.
+
+## GraphQL Queries
+
+Access the GraphQL playground at: http://localhost:4000
+
+Here's some example queries you can run:
+
+### Regular whole card database search with pagination
+
+```js
+query CardSetSearchWithPagination {
+  pagination: cardPagination(
+    perPage: 50
+    page: 11
+    filter: { _operators: { originalReleaseDate: { exists: true	} } }
+    sort: RARITY_DESC
+  ) {
+    items {
+      _id
+      name
+      manaCost
+      rarity
+      set {
+        releaseDate
+        name
+        code
+      }
+      convertedManaCost
+      colorIdentity
+      text
+      scryfallId
+    }
+    pageInfo {
+      itemCount
+      pageCount
+      perPage
+      currentPage
+    }
+  }
+}
+```
+
+### Search for cards by text in card name
+
+```js
+// query
+query SearchCards($name: RegExpAsString) {
+  cardMany(
+    limit: 10
+    filter: { _operators: { name: { regex: $name } } }
+  ) {
+    _id
+    name
+    manaCost
+    rarity
+    setCode
+    convertedManaCost
+    colorIdentity
+    text
+  }
+}
+```
+
+```js
+// Query Variables
+{
+	"name": "/Garruk/i"
+}
+```
+
+### Search for cards in a particular set
+
+```js
+query {
+  cardMany(
+  	filter:{
+      _operators:{
+        setCode:{
+          in:["8E"]
+        }
+      }
+    }
+    limit:10
+    sort: _ID_DESC
+  ) {
+    _id
+    name
+    manaCost
+    rarity
+    setCode
+    convertedManaCost
+    colorIdentity
+    text
+    type
+    types
+  }
+}
+```
+
+### Get a list of all core release sets sorted by release date
+
+```js
+query Sets {
+  setMany(
+    sort: RELEASEDATE_DESC
+    filter:{
+      _operators:{
+      	code:{
+          regex:"/^[0-9]+E.?$/"
+        }
+      }
+    }
+  ) {
+    name
+    type
+    code
+    releaseDate
+  }
+  setCount
+}
+```
