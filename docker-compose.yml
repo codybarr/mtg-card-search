@@ -1,7 +1,5 @@
 # Dev Only Currently
 
-version: '3.7'
-
 services:
   server:
     container_name: mtg-card-search_server

@@ -10,8 +10,15 @@ _Pre-reqs: Install Docker (and make sure docker compose is installed)_
 
 1. Clone the repo
 2. `mv client/.env.sample client/.env`
-3. Run `docker-compose up` _(initial startup may take a while - wait for client to finish)_
-4. In another terminal tab run `npm run seed` to seed the card collection.
+3. `mv server/.env.sample server/.env`
+4. Install Git LFS and download the large seed files (seed/cards.csv)
+
+   - `brew install git-lfs`
+   - `git lfs install`
+   - `git lfs pull`
+
+5. Run `docker-compose up` _(initial startup may take a while - wait for client to finish)_
+6. In another terminal tab run `npm run seed` to seed the card collection.
    _(it should look something like this)_
 
 ```
