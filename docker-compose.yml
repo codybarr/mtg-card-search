@@ -9,10 +9,13 @@ services:
       - 4000:4000
     working_dir: /server
     env_file: ./server/.env
+    environment:
+      MONGO_CONNECTION_STRING: mongodb://root:somepass@mongo:27017/mtg-search?authSource=admin
     volumes:
       - ./server:/server
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
 
   client:
     container_name: mtg-card-search_client
@@ -37,6 +40,12 @@ services:
       SERVICE_NAME: mtg-card-search_mongo
     ports:
       - '27017:27017'
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet -u root -p somepass --authenticationDatabase admin --eval 'db.adminCommand({ ping: 1 }).ok' localhost:27017 | grep 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
     volumes:
       - ./seed:/data/seed
       - mongo_data:/data/db

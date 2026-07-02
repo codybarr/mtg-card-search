@@ -2,7 +2,7 @@
 
 Simple card search API for Magic the Gathering.
 
-Tech used: Express, Apollo Server, MongoDB, Mongoose, GraphQL, React, Snowpack, TailwindCSS, Docker Compose.
+Tech used: Express, Apollo Server, MongoDB, Mongoose, GraphQL, React, Vite, TailwindCSS, Docker Compose.
 
 ## Set Up
 

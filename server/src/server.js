@@ -5,7 +5,10 @@ import { schema } from './schema.js'
 
 ;(async function main() {
   try {
-    await mongoose.connect(MONGO_CONNECTION_STRING, { useNewUrlParser: true })
+    await mongoose.connect(MONGO_CONNECTION_STRING, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
     console.log('MongoDB Connected')
 
     const server = new ApolloServer({ schema })
