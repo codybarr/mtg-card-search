@@ -47,7 +47,6 @@ services:
       retries: 12
       start_period: 5s
     volumes:
-      - ./seed:/data/seed
       - mongo_data:/data/db
       - mongo_config:/data/configdb
 

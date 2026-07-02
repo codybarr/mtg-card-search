@@ -11,32 +11,26 @@ _Pre-reqs: Install Docker (and make sure docker compose is installed)_
 1. Clone the repo
 2. `mv client/.env.sample client/.env`
 3. `mv server/.env.sample server/.env`
-4. Install Git LFS and download the large seed files (seed/cards.csv)
-
-   - `brew install git-lfs`
-   - `git lfs install`
-   - `git lfs pull`
-
-5. Run `docker-compose up` _(initial startup may take a while - wait for client to finish)_
-6. In another terminal tab run `npm run seed` to seed the card collection.
-   _(it should look something like this)_
+4. Run `docker-compose up` _(initial startup may take a while - wait for client to finish)_
+5. In another terminal tab run `npm run seed` to download MTGJSON AllPrintings data and seed the card collection.
+   The seed file is fetched at runtime, so you do not need Git LFS or a checked-in `seed/cards.csv`.
 
 ```
 ➜ npm run seed
 
-> mtg-card-search@1.0.0 seed
-> docker exec mtg-card-search_mongo mongoimport --db=mtg-search --collection=cards --authenticationDatabase=admin --authenticationMechanism=SCRAM-SHA-256 -u=root -p=somepass --drop --type=csv --headerline --file=/data/seed/cards.csv
+> mtg-card-search@1.1.0 seed
+> docker exec mtg-card-search_server npm run seed
 
-2021-04-13T22:56:55.551+0000	connected to: mongodb://localhost/
-2021-04-13T22:56:55.555+0000	dropping: mtg-search.cards
-2021-04-13T22:56:58.552+0000	[###########.............] mtg-search.cards	24.8MB/53.5MB (46.3%)
-2021-04-13T22:57:01.516+0000	[#####################...] mtg-search.cards	48.1MB/53.5MB (89.8%)
-2021-04-13T22:57:02.218+0000	[########################] mtg-search.cards	53.5MB/53.5MB (100.0%)
-2021-04-13T22:57:02.218+0000	56946 document(s) imported successfully. 0 document(s) failed to import.
+Downloading MTGJSON data from https://mtgjson.com/api/v5/AllPrintings.json.gz
+MongoDB connected
+Dropping existing cards collection
+Imported 10,000 cards...
+...
+Seed complete: imported 100,000+ cards from 900+ sets
 ```
 
-4. React client frontend can be accessed at: http://localhost:8080
-5. Apollo GraphQL playground can be accessed at: http://localhost:4000
+6. React client frontend can be accessed at: http://localhost:8080
+7. Apollo GraphQL playground can be accessed at: http://localhost:4000
 
 ## Scripts
 
@@ -52,7 +46,11 @@ Spin it down ;)
 
 Follow the logs in the server container
 
-`docker exec -it mtg-card-search_mongo mongo -u root -p somepass`
+`npm run seed`
+
+Download `AllPrintings.json.gz` from MTGJSON and rebuild the `cards` collection. Optional env vars when running inside `server`: `MTGJSON_URL` and `SEED_BATCH_SIZE`.
+
+`docker exec -it mtg-card-search_mongo mongosh -u root -p somepass`
 
 Drop into the mongo shell in the mongo container
 

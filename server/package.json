@@ -5,7 +5,8 @@
   "author": "Cody Barr <cody.barr@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "seed": "node scripts/seed-mtgjson.js"
   },
   "type": "module",
   "dependencies": {
@@ -19,7 +20,8 @@
     "graphql-compose-mongoose": "^9.2.2",
     "helmet": "^4.4.1",
     "mongoose": "^5.12.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "stream-json": "^3.4.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
